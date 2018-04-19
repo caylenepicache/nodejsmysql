@@ -21,20 +21,32 @@ connection.connect(function(err) {
 function readData() {
     connection.query("SELECT * FROM products", function(err, res) {
       if (err) throw err;
-      console.log(res);
-      connection.end();
+
+      //loop through the table
+      for(var i = 0; i<res.length;i++){
+        console.log("\nID: " + res[i].item_id + " | " + "Product: " + res[i].product_name + " | " + "Department: " + res[i].department_name + " | " + "Price: " + res[i].price + " | " + "QTY: " + res[i].stock_quantity);
+        //console.log('--------------------------------------------------------------------------------------------------')
+        //console.log(res);
+      }
+    //prompt user after bamazon_db displays
+    promptUser();
+
     });
   }
 
 function promptUser(){
     inquirer.prompt([
         
-    {
-        type: "list",
-        name: "userAction",
-        message: "Select Action",
-        choices: ["Id of item you would like to purchase", "How many units would you like to buy of this item?"]
-    }
+        {
+            type: "input",
+            message: "What is the ID of the item you would like to purchase?",
+            name: "itemId"
+        },
+        {
+            type: "input",
+            message: "How many items do you want to order?",
+            name: "userQuantity"
+        }
         ]).then(function(user) {
         
         // If the user guesses the password...
@@ -52,3 +64,6 @@ function promptUser(){
     });
 };
 
+function idItemMatch() {
+
+}
