@@ -102,12 +102,37 @@ function updateQuantity() {
       ],
       function(err, res) {
         console.log("Quantity updated!\n");
+        continueShopping();
         // Call deleteProduct AFTER the UPDATE completes
       }
     );
   
     // logs the actual query being run
-    console.log(query.sql);
-    connection.end();
+    console.log("query sql: " + query.sql);
 
-}
+
+};
+
+function continueShopping() {
+    inquirer.prompt([
+        {
+            type: "list",
+            name: "shopContChoice",
+            message: "Would you like to order more products?",
+            choices: ["Yes", "No"]
+        }
+        ])
+        .then(function(user) {
+
+            if(user.shopContChoice === "Yes") {
+                readData();
+            }
+
+            else if(user.shopContChoice === "No") {
+                connection.end();
+                console.log("Thank you for shopping at Bamazon");
+            }
+
+})
+};
+
