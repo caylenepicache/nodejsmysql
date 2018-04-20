@@ -4,6 +4,7 @@ var inquirer = require('inquirer');
 var mysql = require('mysql');
 var matchId;
 var quantity;
+var newQuantity;
 
 var connection = mysql.createConnection({
     host: "localhost",
@@ -30,6 +31,7 @@ function readData() {
         //console.log('--------------------------------------------------------------------------------------------------')
         //console.log(res);
       }
+
     //prompt user after bamazon_db displays
     promptUser();
 
@@ -51,9 +53,9 @@ function promptUser(){
         }
         ]).then(function(user) {
         
-            matchId = user.itemId - 1;
-            quantity = user.userQuantity
-            
+           matchId = user.itemId - 1;
+           quantity = user.userQuantity;
+           
             console.log(matchId);
             console.log(quantity);
 
@@ -66,9 +68,46 @@ function idItemMatch(id) {
     connection.query("SELECT * FROM products", function(err, res) {
         if (err) throw err;
 
+    
     console.log("here in function iditemmatch " + matchId);
-
     console.log(res[matchId].item_id);
     console.log(res[matchId].product_name);
+    console.log(res[matchId].stock_quantity)
+    console.log("User Quantity Wants: " + quantity);
+
+    if(res[matchId].stock_quantity < quantity) {
+        console.log("Insufficient Quantity!")
+    }
+    else {
+        newQuantity = res[matchId].stock_quantity - quantity;
+        console.log("New Quantity: " + newQuantity);
+    }
+
+    updateQuantity();
+
 });
+}
+
+function updateQuantity() {
+    console.log("Updating all Genres...\n");
+    var query = connection.query(
+      "UPDATE products SET ? WHERE ?",
+      [
+        {
+            stock_quantity: newQuantity
+        },
+        {
+            item_id: matchId
+        }
+      ],
+      function(err, res) {
+        console.log("Quantity updated!\n");
+        // Call deleteProduct AFTER the UPDATE completes
+      }
+    );
+  
+    // logs the actual query being run
+    console.log(query.sql);
+    connection.end();
+
 }

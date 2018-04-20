@@ -1,4 +1,4 @@
-DROP DATABASE IF EXISTS bamazon_db;
+DROP DATABASE IF EXISTS bamazon_db; 
 
 create database bamazon_db;
 
@@ -26,4 +26,6 @@ values ("Bialetti 1168 Moka Express Export Espresso Maker", "Home and Kitchen", 
 ("Nature Made Melatonin 3 mg Tablets Value Size 240 Ct", "Health and Personal Care", 7.79, 213),
 ("Burton Tinder Backpack, Rancher Stripe Print", "Sports and Outdoors", 74.95, 58),
 ("I hope this reaches her in time", "Books", 3.58, 66),
-("Adagio Teas 16 oz. ingenuiTEA Bottom-Dispensing Teapot", "Home and Kitchen", 18.76, 145)
+("Adagio Teas 16 oz. ingenuiTEA Bottom-Dispensing Teapot", "Home and Kitchen", 18.76, 145);
+
+SELECT * FROM bamazon_db.products;
