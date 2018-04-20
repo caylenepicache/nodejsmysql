@@ -2,6 +2,8 @@
 
 var inquirer = require('inquirer');
 var mysql = require('mysql');
+var matchId;
+var quantity;
 
 var connection = mysql.createConnection({
     host: "localhost",
@@ -49,18 +51,12 @@ function promptUser(){
         }
         ]).then(function(user) {
         
-        // If the user guesses the password...
-        if (user.userAction === "Id of item you would like to purchase") {
-        //idItemMatch
-        }
-        
-        
-        // If the user doesn't guess the password...
-        else if (user.userAction === "How many units would you like to buy of this item?") {
-        
-        //function
-        
-        }
+            matchId = user.itemId - 1;
+            quantity = user.userQuantity
+            
+            console.log(matchId);
+            console.log(quantity);
+
     });
 };
 
