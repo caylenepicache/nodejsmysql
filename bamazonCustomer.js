@@ -57,9 +57,18 @@ function promptUser(){
             console.log(matchId);
             console.log(quantity);
 
+            idItemMatch();
+
     });
 };
 
-function idItemMatch() {
+function idItemMatch(id) {
+    connection.query("SELECT * FROM products", function(err, res) {
+        if (err) throw err;
 
+    console.log("here in function iditemmatch " + matchId);
+
+    console.log(res[matchId].item_id);
+    console.log(res[matchId].product_name);
+});
 }
