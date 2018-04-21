@@ -5,7 +5,8 @@ var mysql = require('mysql');
 var matchId;
 var quantity;
 var newQuantity;
-
+//map database id to array index
+//var resId;
 var connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
@@ -53,11 +54,11 @@ function promptUser(){
         }
         ]).then(function(user) {
         
-           matchId = user.itemId - 1;
+           matchId = user.itemId;
            quantity = user.userQuantity;
            
-            console.log(matchId);
-            console.log(quantity);
+            console.log("Match Id:" + matchId);
+            console.log("user quantity wanted: " + quantity);
 
             idItemMatch();
 
@@ -68,22 +69,24 @@ function idItemMatch(id) {
     connection.query("SELECT * FROM products", function(err, res) {
         if (err) throw err;
 
-    
+    var resId = matchId - 1;
+
     console.log("here in function iditemmatch " + matchId);
-    console.log(res[matchId].item_id);
-    console.log(res[matchId].product_name);
-    console.log(res[matchId].stock_quantity)
+    console.log("Item Id: " + res[resId].item_id);
+    console.log("Product Id: " + res[resId].product_name);
+    console.log("Stock Quantity: " + res[resId].stock_quantity)
     console.log("User Quantity Wants: " + quantity);
 
-    if(res[matchId].stock_quantity < quantity) {
-        console.log("Insufficient Quantity!")
+    if(res[resId].stock_quantity < quantity) {
+        console.log("Insufficient Quantity!");
+        continueShopping();
+        
     }
     else {
-        newQuantity = res[matchId].stock_quantity - quantity;
+        newQuantity = res[resId].stock_quantity - quantity;
         console.log("New Quantity: " + newQuantity);
+        updateQuantity();
     }
-
-    updateQuantity();
 
 });
 }
