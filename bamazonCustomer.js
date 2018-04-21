@@ -54,12 +54,12 @@ function promptUser(){
         }
         ]).then(function(user) {
         
+            //id of product user wants
            matchId = user.itemId;
+           //variable of user wants quantity
            quantity = user.userQuantity;
            
-            console.log("Match Id:" + matchId);
-            console.log("user quantity wanted: " + quantity);
-
+            
             idItemMatch();
 
     });
@@ -71,11 +71,11 @@ function idItemMatch(id) {
 
     var resId = matchId - 1;
 
-    console.log("here in function iditemmatch " + matchId);
-    console.log("Item Id: " + res[resId].item_id);
-    console.log("Product Id: " + res[resId].product_name);
-    console.log("Stock Quantity: " + res[resId].stock_quantity)
-    console.log("User Quantity Wants: " + quantity);
+   // console.log("here in function iditemmatch " + matchId);
+    //console.log("Item Id: " + res[resId].item_id);
+    //console.log("Product Id: " + res[resId].product_name);
+    //console.log("Stock Quantity: " + res[resId].stock_quantity)
+    //console.log("User Quantity Wants: " + quantity);
 
     if(res[resId].stock_quantity < quantity) {
         console.log("Insufficient Quantity!");
@@ -84,7 +84,8 @@ function idItemMatch(id) {
     }
     else {
         newQuantity = res[resId].stock_quantity - quantity;
-        console.log("New Quantity: " + newQuantity);
+        console.log("\nYou ordered " + quantity + " of " + res[resId].product_name + ".")
+        //console.log("New Quantity: " + newQuantity);
         updateQuantity();
     }
 
@@ -92,7 +93,7 @@ function idItemMatch(id) {
 }
 
 function updateQuantity() {
-    console.log("Updating all Genres...\n");
+    //console.log("Updating quantity...\n");
     var query = connection.query(
       "UPDATE products SET ? WHERE ?",
       [
@@ -104,14 +105,14 @@ function updateQuantity() {
         }
       ],
       function(err, res) {
-        console.log("Quantity updated!\n");
+        //console.log("Quantity updated!\n");
         continueShopping();
         // Call deleteProduct AFTER the UPDATE completes
       }
     );
   
     // logs the actual query being run
-    console.log("query sql: " + query.sql);
+    //console.log("query sql: " + query.sql);
 
 
 };
